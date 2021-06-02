@@ -39,11 +39,11 @@ app.get("/albums", function (req, res) {
     res.send(albumsData);
 });
 
-app.get("/albums/:ambumId", function (req, res) {
-    const albumId = req.params.albumId;
-    let album = albumsData.find(item => item.id === albumId);
+app.get("/albums/:albumId", function (req, res) {
+    const albumId = req.params.albumId.toString();
+    let album = albumsData.find(item => item.albumId === albumId);
     if (album) {
-        res.send(album);
+        res.status(200).send(album);
     } else {
         res.status(404).send();
     }
@@ -60,13 +60,14 @@ app.post("/albums", function (req, res) {
 
 
 // delete
-app.delete("/albums/:albumID", function (req, res) {
-    const albumId = req.params.albumId;
-    let index = albumsData.findIndex(item => item.id === albumId);
+app.delete("/albums/:albumId", function (req, res) {
+    const albumId = req.params.albumId.toString();
+    let index = albumsData.findIndex(item => item.albumId === albumId);
     if (index < 0) {
-        response.status(404).send('');
+        res.status(404).send('');
       } else {
         albumsData.splice(index, 1, undefined);
+        console.log(albumsData);
         res.status(204).send(albumsData[index]);
     } 
   });
